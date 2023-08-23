@@ -41,7 +41,7 @@ class Advertisement(models.Model):
         if self.image:
             return format_html('<img style="height:100px; width:100px;"src={}>', self.image.url)
         else:
-            return format_html('<img style="height:100px; width:100px;"src={}>', '{% static "adv/img.png"%}')
+            return format_html('<span style="color: red; font-weight: bold;"> Изображение отсутствует </span>')
 
     class Meta:
         db_table = 'advertisements'
