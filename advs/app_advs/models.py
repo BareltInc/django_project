@@ -8,12 +8,13 @@ User = get_user_model()
 class Advertisement(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=128)
     description = models.TextField(verbose_name='Описание')
-    image = models.ImageField(verbose_name='Изображение', upload_to='advs/', default='')
+    image = models.ImageField(verbose_name='Изображение', upload_to='advs/', default='', null=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2)
     auction = models.BooleanField(verbose_name='Торг', help_text='Отметье, уместен ли торг')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+
 
     @admin.display(description='Дата создания')
     def created_date(self):
@@ -37,8 +38,10 @@ class Advertisement(models.Model):
 
     @admin.display(description='Изображение')
     def img_thumbnail(self):
-        return format_html('<span><img src={}></span>', self.image)
-
+        if self.image:
+            return format_html('<img style="height:100px; width:100px;"src={}>', self.image.url)
+        else:
+            return format_html('<img style="height:100px; width:100px;"src={}>', '{% static "adv/img.png"%}')
 
     class Meta:
         db_table = 'advertisements'
