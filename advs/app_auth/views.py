@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
+from .forms import CustomUserCreationForm
 
 def login_view(request):
     redirect_url = reverse('profile')
@@ -27,7 +28,15 @@ def profile(request):
     return render(request, 'app_auth/profile.html')
 
 def register(request):
-    return render(request, 'app_auth/register.html')
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid() and request.password == request.password_confirm:
+            new_user = CustomUserCreationForm(**form.cleaned_data)
+            new_user.save()
+            url = reverse('profile')
+            return redirect(url)
+    if request.method == "GET":
+        return render(request, 'app_auth/register.html')
 
 def logout_view(request):
     logout(request)
