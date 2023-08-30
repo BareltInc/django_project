@@ -4,7 +4,7 @@
 <html lang="en">
 
 {% block title %}
-Объявление
+Объявление "{{ advertisement.title }}"
 {% endblock %}
 
 {% block content %}
@@ -50,7 +50,7 @@
 
 <div class="container" style="margin: 50px;">
   <div class="display-2">
-    <span class="badge bg-primary">Объявление пользователя "{{ advertisement.user }}"</span>
+    <span class="badge bg-primary">Объявление пользователя {{ advertisement.user }}</span>
   </div>
 </div>
 <div class="col offset-2">
@@ -69,8 +69,9 @@
           <p class="card-text">
             {{ advertisement.description }}
           </p>
-          <span>Автор: " advertisement.user  "</span>
-          <p class="card-text"><small class="text-muted">Размещено: "{{ advertisement.created_at }}"</small></p>
+          <span>Автор: {{ advertisement.user }}</span>
+          <p class="card-text"><small class="text-muted">Размещено: {{ advertisement.created_at }}</small></p>
+          <p class="card-text">Цена: {{ advertisement.price }}</p>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ class AdvertisementForm(forms.ModelForm):
         self.fields['title'].widget.attrs['class'] = 'form-control form-control-lg'
         self.fields['description'].widget.attrs['class'] = 'form-control form-control-lg'
         self.fields['image'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['image'].required = False
         self.fields['price'].widget.attrs['class'] = 'form-control form-control-lg'
         self.fields['auction'].widget.attrs['class'] = 'form-check-input'
     class Meta:

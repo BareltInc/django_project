@@ -18,6 +18,7 @@ def index(request):
 def top_sellers(request):
     return render(request, 'app_advs/top-sellers.html')
 
+
 @login_required(login_url=reverse_lazy('login'))
 def adv_post(request):
     if request.method == "POST":
@@ -34,7 +35,9 @@ def adv_post(request):
     context = {'form': form}
     return render(request, 'app_advs/advertisement-post.html', context=context)
 
+
+@login_required(login_url=reverse_lazy('login'))
 def adv(request, pk):
-    advertisement = Advertisement.objects.filter(id=pk)
+    advertisement = Advertisement.objects.get(id=pk)
     context = {'advertisement': advertisement}
     return render(request, 'app_advs/advertisement.html', context=context)

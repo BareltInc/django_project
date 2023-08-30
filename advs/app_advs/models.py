@@ -9,7 +9,7 @@ User = get_user_model()
 class Advertisement(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=128)
     description = models.TextField(verbose_name='Описание')
-    image = models.ImageField(verbose_name='Изображение', upload_to='advs/', default='', null=True)
+    image = models.ImageField(verbose_name='Изображение', upload_to='advs/', null=True, blank=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2)
     auction = models.BooleanField(verbose_name='Торг', help_text='Отметье, уместен ли торг')
     created_at = models.DateTimeField(auto_now_add=True)
