@@ -1,4 +1,6 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
@@ -15,8 +17,14 @@ def index(request):
     context = {'advertisements': advertisements, 'title': title}
     return render(request, 'app_advs/index.html', context=context)
 
+
+User = get_user_model()
 def top_sellers(request):
-    return render(request, 'app_advs/top-sellers.html')
+    users = User.objects.annotate(
+        adv_count=Count('advertisement')
+    ).order_by('-adv_count')
+    context = {'users': users}
+    return render(request, 'app_advs/top-sellers.html', context)
 
 
 @login_required(login_url=reverse_lazy('login'))
