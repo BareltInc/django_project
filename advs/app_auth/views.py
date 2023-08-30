@@ -2,8 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from .forms import ExtendedUserCreationForm
 
-from .forms import CustomUserCreationForm
 
 def login_view(request):
     redirect_url = reverse('profile')
@@ -22,21 +22,24 @@ def login_view(request):
         return render(request, 'app_auth/login.html', {'error': 'Пользователь не найден'})
 
 
-
 @login_required(login_url=reverse_lazy('login'))
 def profile(request):
     return render(request, 'app_auth/profile.html')
 
-def register(request):
+
+def register_view(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid() and request.password == request.password_confirm:
-            new_user = CustomUserCreationForm(**form.cleaned_data)
-            new_user.save()
-            url = reverse('profile')
-            return redirect(url)
-    if request.method == "GET":
-        return render(request, 'app_auth/register.html')
+        form = ExtendedUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user = authenticate(username=user.username, password=request.POST['password1'])
+            login(request, user=user)
+            return redirect(reverse('profile'))
+    else:
+        form = ExtendedUserCreationForm()
+    context = {'form':form}
+    return render(request, 'app_auth/register.html', context)
+
 
 def logout_view(request):
     logout(request)

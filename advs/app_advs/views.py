@@ -7,8 +7,12 @@ from .forms import AdvertisementForm
 
 
 def index(request):
-    advertisements = Advertisement.objects.all()
-    context = {'advertisements': advertisements}
+    title = request.GET.get('query')
+    if title:
+        advertisements = Advertisement.objects.filter(title__contains=title)
+    else:
+        advertisements = Advertisement.objects.all()
+    context = {'advertisements': advertisements, 'title': title}
     return render(request, 'app_advs/index.html', context=context)
 
 def top_sellers(request):
@@ -29,3 +33,8 @@ def adv_post(request):
         form = AdvertisementForm()
     context = {'form': form}
     return render(request, 'app_advs/advertisement-post.html', context=context)
+
+def adv(request, pk):
+    advertisement = Advertisement.objects.filter(id=pk)
+    context = {'advertisement': advertisement}
+    return render(request, 'app_advs/advertisement.html', context=context)

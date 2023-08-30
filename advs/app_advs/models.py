@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib import admin
+from django.urls import reverse
 from django.utils.html import format_html
 
 User = get_user_model()
@@ -49,3 +50,6 @@ class Advertisement(models.Model):
     def __str__(self):
         return f'<Advertisement: Advertisement(id={self.id}, title={self.title}, price={self.price})>'
 
+
+    def get_absolute_url(self):
+        return reverse('adv', kwargs={'pk': self.pk})
