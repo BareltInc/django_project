@@ -58,7 +58,7 @@
     <div class="row g-0">
       <div class="col-md-4">
         <a href="#" class="nav-link">
-          <img src="{{ advertisement.image.url }}" class="img-fluid rounded-start" alt="Card title">
+          <img src="{% if advertisement.image %}{{ advertisement.image.url }}{% else %}{% static 'img/adv.png' %}{%endif%}" class="img-fluid rounded-start" alt="Card title">
         </a>
       </div>
       <div class="col">
